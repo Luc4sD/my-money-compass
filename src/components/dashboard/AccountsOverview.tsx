@@ -1,4 +1,4 @@
-import { mockAccounts } from '@/data/mockData';
+import { accounts } from '@/data/mockData';
 import { cn } from '@/lib/utils';
 import {
   Building2,
@@ -32,7 +32,7 @@ const formatCurrency = (value: number) => {
 export function AccountsOverview() {
   const [showBalances, setShowBalances] = useState(true);
 
-  const totalBalance = mockAccounts
+  const totalBalance = accounts
     .filter((a) => a.type !== 'credit_card')
     .reduce((sum, a) => sum + a.balance, 0);
 
@@ -71,7 +71,7 @@ export function AccountsOverview() {
 
       {/* Accounts List */}
       <div className="space-y-2">
-        {mockAccounts.map((account) => {
+        {accounts.map((account) => {
           const Icon = iconMap[account.icon] || Building2;
           return (
             <div

@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
-import { mockAccounts, mockCategories } from '@/data/mockData';
+import { accounts, categories } from '@/data/mockData';
 import {
   ArrowDownCircle,
   ArrowUpCircle,
@@ -41,7 +41,7 @@ export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProp
   const [isPaid, setIsPaid] = useState(true);
   const [isRecurring, setIsRecurring] = useState(false);
 
-  const filteredCategories = mockCategories.filter(
+  const filteredCategories = categories.filter(
     (cat) => cat.type === transactionType || transactionType === 'transfer'
   );
 
@@ -137,7 +137,7 @@ export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProp
                   <SelectValue placeholder="Selecione" />
                 </SelectTrigger>
                 <SelectContent>
-                  {mockAccounts.map((account) => (
+                  {accounts.map((account) => (
                     <SelectItem key={account.id} value={account.id}>
                       {account.name}
                     </SelectItem>

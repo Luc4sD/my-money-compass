@@ -1,4 +1,4 @@
-import { mockTransactions, mockCategories, mockAccounts } from '@/data/mockData';
+import { transactions, categories, accounts } from '@/data/mockData';
 import { cn } from '@/lib/utils';
 import {
   Home,
@@ -52,7 +52,7 @@ const formatDate = (date: Date) => {
 };
 
 export function RecentTransactions() {
-  const transactions = [...mockTransactions].sort(
+  const sortedTransactions = [...transactions].sort(
     (a, b) => b.date.getTime() - a.date.getTime()
   );
 
@@ -62,7 +62,7 @@ export function RecentTransactions() {
         <div>
           <h3 className="text-lg font-semibold">Últimas Transações</h3>
           <p className="text-sm text-muted-foreground">
-            {transactions.length} transações este mês
+            {sortedTransactions.length} transações este mês
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -77,11 +77,11 @@ export function RecentTransactions() {
       </div>
 
       <div className="space-y-1">
-        {transactions.slice(0, 6).map((transaction) => {
-          const category = mockCategories.find(
+        {sortedTransactions.slice(0, 6).map((transaction) => {
+          const category = categories.find(
             (c) => c.id === transaction.categoryId
           );
-          const account = mockAccounts.find(
+          const account = accounts.find(
             (a) => a.id === transaction.accountId
           );
           const Icon = category ? iconMap[category.icon] || Banknote : Banknote;

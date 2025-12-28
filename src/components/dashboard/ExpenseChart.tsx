@@ -1,5 +1,5 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
-import { mockTransactions, mockCategories } from '@/data/mockData';
+import { transactions, categories } from '@/data/mockData';
 import { MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -12,10 +12,10 @@ const formatCurrency = (value: number) => {
 
 export function ExpenseChart() {
   // Calculate expenses by category
-  const expensesByCategory = mockTransactions
+  const expensesByCategory = transactions
     .filter((t) => t.type === 'expense')
     .reduce((acc, t) => {
-      const category = mockCategories.find((c) => c.id === t.categoryId);
+      const category = categories.find((c) => c.id === t.categoryId);
       if (category) {
         if (!acc[category.id]) {
           acc[category.id] = {

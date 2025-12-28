@@ -1,4 +1,4 @@
-import { mockCreditCards } from '@/data/mockData';
+import { creditCards } from '@/data/mockData';
 import { cn } from '@/lib/utils';
 import { CreditCard, ChevronRight, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -32,7 +32,7 @@ export function CreditCardsWidget() {
       </div>
 
       <div className="space-y-3">
-        {mockCreditCards.map((card) => {
+        {creditCards.map((card) => {
           const usedPercentage =
             ((card.limit - card.availableLimit) / card.limit) * 100;
           const usedAmount = card.limit - card.availableLimit;

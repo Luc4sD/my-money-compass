@@ -1,4 +1,4 @@
-import { mockBudgets, mockCategories } from '@/data/mockData';
+import { budgets, categories } from '@/data/mockData';
 import { cn } from '@/lib/utils';
 import { AlertCircle, CheckCircle2, MoreHorizontal, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -24,8 +24,8 @@ export function BudgetProgress() {
       </div>
 
       <div className="space-y-4">
-        {mockBudgets.map((budget) => {
-          const category = mockCategories.find((c) => c.id === budget.categoryId);
+        {budgets.map((budget) => {
+          const category = categories.find((c) => c.id === budget.categoryId);
           const percentage = (budget.spent / budget.amount) * 100;
           const isOverBudget = percentage >= 100;
           const isWarning = percentage >= 80 && percentage < 100;

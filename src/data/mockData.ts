@@ -45,36 +45,97 @@ export const invoices: Invoice[] = [
 ];
 
 export const categories: Category[] = [
+  // Receitas
   { id: 'cat-income-1', name: 'Salário', type: 'income', icon: 'Briefcase', color: '#10B981' },
   { id: 'cat-income-2', name: 'Freelance', type: 'income', icon: 'Laptop', color: '#3B82F6' },
   { id: 'cat-income-3', name: 'Investimentos', type: 'income', icon: 'TrendingUp', color: '#8B5CF6' },
+  { id: 'cat-income-4', name: 'Outros Rendimentos', type: 'income', icon: 'DollarSign', color: '#10B981' },
+  
+  // Despesas - Moradia e Contas
+  { id: 'cat-3', name: 'Moradia', type: 'expense', icon: 'Home', color: '#8B5CF6', subcategories: [
+    { id: 'cat-3-1', name: 'Aluguel', type: 'expense', icon: 'Home', color: '#8B5CF6' },
+    { id: 'cat-3-2', name: 'Condomínio', type: 'expense', icon: 'Building', color: '#8B5CF6' },
+    { id: 'cat-3-3', name: 'Energia Elétrica', type: 'expense', icon: 'Zap', color: '#8B5CF6' },
+    { id: 'cat-3-4', name: 'Água', type: 'expense', icon: 'Droplets', color: '#8B5CF6' },
+    { id: 'cat-3-5', name: 'Gás', type: 'expense', icon: 'Flame', color: '#8B5CF6' },
+    { id: 'cat-3-6', name: 'Internet', type: 'expense', icon: 'Wifi', color: '#8B5CF6' },
+    { id: 'cat-3-7', name: 'Telefone', type: 'expense', icon: 'Phone', color: '#8B5CF6' },
+    { id: 'cat-3-8', name: 'IPTU', type: 'expense', icon: 'FileText', color: '#8B5CF6' },
+  ]},
+  
+  // Despesas - Transporte
+  { id: 'cat-2', name: 'Transporte', type: 'expense', icon: 'Car', color: '#3B82F6', subcategories: [
+    { id: 'cat-2-1', name: 'Combustível', type: 'expense', icon: 'Fuel', color: '#3B82F6' },
+    { id: 'cat-2-2', name: 'Uber/99', type: 'expense', icon: 'Car', color: '#3B82F6' },
+    { id: 'cat-2-3', name: 'Estacionamento', type: 'expense', icon: 'ParkingCircle', color: '#3B82F6' },
+    { id: 'cat-2-4', name: 'Manutenção Veículo', type: 'expense', icon: 'Wrench', color: '#3B82F6' },
+    { id: 'cat-2-5', name: 'Seguro Veículo', type: 'expense', icon: 'Shield', color: '#3B82F6' },
+    { id: 'cat-2-6', name: 'Parcela Veículo', type: 'expense', icon: 'CreditCard', color: '#3B82F6' },
+    { id: 'cat-2-7', name: 'IPVA/Licenciamento', type: 'expense', icon: 'FileText', color: '#3B82F6' },
+    { id: 'cat-2-8', name: 'Transporte Público', type: 'expense', icon: 'Bus', color: '#3B82F6' },
+  ]},
+  
+  // Despesas - Alimentação
   { id: 'cat-1', name: 'Alimentação', type: 'expense', icon: 'Utensils', color: '#F97316', subcategories: [
     { id: 'cat-1-1', name: 'Restaurantes', type: 'expense', icon: 'Utensils', color: '#F97316' },
     { id: 'cat-1-2', name: 'Supermercado', type: 'expense', icon: 'ShoppingCart', color: '#F97316' },
     { id: 'cat-1-3', name: 'Delivery', type: 'expense', icon: 'Bike', color: '#F97316' },
+    { id: 'cat-1-4', name: 'Padaria/Café', type: 'expense', icon: 'Coffee', color: '#F97316' },
   ]},
-  { id: 'cat-2', name: 'Transporte', type: 'expense', icon: 'Car', color: '#3B82F6', subcategories: [
-    { id: 'cat-2-1', name: 'Combustível', type: 'expense', icon: 'Fuel', color: '#3B82F6' },
-    { id: 'cat-2-2', name: 'Uber/99', type: 'expense', icon: 'Car', color: '#3B82F6' },
+  
+  // Despesas - Educação
+  { id: 'cat-6', name: 'Educação', type: 'expense', icon: 'GraduationCap', color: '#06B6D4', subcategories: [
+    { id: 'cat-6-1', name: 'Mensalidade Faculdade', type: 'expense', icon: 'GraduationCap', color: '#06B6D4' },
+    { id: 'cat-6-2', name: 'Cursos', type: 'expense', icon: 'BookOpen', color: '#06B6D4' },
+    { id: 'cat-6-3', name: 'Material Escolar', type: 'expense', icon: 'PenTool', color: '#06B6D4' },
+    { id: 'cat-6-4', name: 'Livros', type: 'expense', icon: 'Book', color: '#06B6D4' },
   ]},
-  { id: 'cat-3', name: 'Moradia', type: 'expense', icon: 'Home', color: '#8B5CF6', subcategories: [
-    { id: 'cat-3-1', name: 'Aluguel', type: 'expense', icon: 'Home', color: '#8B5CF6' },
-    { id: 'cat-3-2', name: 'Condomínio', type: 'expense', icon: 'Building', color: '#8B5CF6' },
-    { id: 'cat-3-3', name: 'Energia', type: 'expense', icon: 'Zap', color: '#8B5CF6' },
-  ]},
-  { id: 'cat-4', name: 'Lazer', type: 'expense', icon: 'Gamepad2', color: '#EC4899', subcategories: [
-    { id: 'cat-4-2', name: 'Streaming', type: 'expense', icon: 'Tv', color: '#EC4899' },
-  ]},
+  
+  // Despesas - Saúde
   { id: 'cat-5', name: 'Saúde', type: 'expense', icon: 'Heart', color: '#EF4444', subcategories: [
     { id: 'cat-5-1', name: 'Farmácia', type: 'expense', icon: 'Pill', color: '#EF4444' },
+    { id: 'cat-5-2', name: 'Plano de Saúde', type: 'expense', icon: 'HeartPulse', color: '#EF4444' },
+    { id: 'cat-5-3', name: 'Consultas Médicas', type: 'expense', icon: 'Stethoscope', color: '#EF4444' },
     { id: 'cat-5-4', name: 'Academia', type: 'expense', icon: 'Dumbbell', color: '#EF4444' },
+    { id: 'cat-5-5', name: 'Dentista', type: 'expense', icon: 'Smile', color: '#EF4444' },
   ]},
-  { id: 'cat-6', name: 'Educação', type: 'expense', icon: 'GraduationCap', color: '#06B6D4', subcategories: [
-    { id: 'cat-6-1', name: 'Cursos', type: 'expense', icon: 'BookOpen', color: '#06B6D4' },
+  
+  // Despesas - Lazer
+  { id: 'cat-4', name: 'Lazer', type: 'expense', icon: 'Gamepad2', color: '#EC4899', subcategories: [
+    { id: 'cat-4-1', name: 'Cinema/Shows', type: 'expense', icon: 'Film', color: '#EC4899' },
+    { id: 'cat-4-2', name: 'Streaming', type: 'expense', icon: 'Tv', color: '#EC4899' },
+    { id: 'cat-4-3', name: 'Viagens', type: 'expense', icon: 'Plane', color: '#EC4899' },
+    { id: 'cat-4-4', name: 'Hobbies', type: 'expense', icon: 'Palette', color: '#EC4899' },
   ]},
+  
+  // Despesas - Compras
   { id: 'cat-7', name: 'Compras', type: 'expense', icon: 'ShoppingBag', color: '#F59E0B', subcategories: [
+    { id: 'cat-7-1', name: 'Roupas', type: 'expense', icon: 'Shirt', color: '#F59E0B' },
     { id: 'cat-7-2', name: 'Eletrônicos', type: 'expense', icon: 'Smartphone', color: '#F59E0B' },
+    { id: 'cat-7-3', name: 'Casa/Decoração', type: 'expense', icon: 'Sofa', color: '#F59E0B' },
   ]},
+  
+  // Despesas - Seguros e Financeiro
+  { id: 'cat-8', name: 'Seguros', type: 'expense', icon: 'Shield', color: '#6366F1', subcategories: [
+    { id: 'cat-8-1', name: 'Seguro de Vida', type: 'expense', icon: 'HeartHandshake', color: '#6366F1' },
+    { id: 'cat-8-2', name: 'Seguro Residencial', type: 'expense', icon: 'Home', color: '#6366F1' },
+  ]},
+  
+  // Despesas - Transferências/Pix
+  { id: 'cat-9', name: 'Transferências', type: 'expense', icon: 'Send', color: '#14B8A6', subcategories: [
+    { id: 'cat-9-1', name: 'Pix para Terceiros', type: 'expense', icon: 'Send', color: '#14B8A6' },
+    { id: 'cat-9-2', name: 'Empréstimos a Terceiros', type: 'expense', icon: 'HandCoins', color: '#14B8A6' },
+    { id: 'cat-9-3', name: 'Presentes', type: 'expense', icon: 'Gift', color: '#14B8A6' },
+  ]},
+  
+  // Despesas - Serviços e Assinaturas
+  { id: 'cat-11', name: 'Assinaturas', type: 'expense', icon: 'CreditCard', color: '#A855F7', subcategories: [
+    { id: 'cat-11-1', name: 'Spotify/Música', type: 'expense', icon: 'Music', color: '#A855F7' },
+    { id: 'cat-11-2', name: 'Apps/Software', type: 'expense', icon: 'AppWindow', color: '#A855F7' },
+    { id: 'cat-11-3', name: 'Jornais/Revistas', type: 'expense', icon: 'Newspaper', color: '#A855F7' },
+  ]},
+  
+  // Outros
   { id: 'cat-10', name: 'Outros', type: 'expense', icon: 'MoreHorizontal', color: '#6B7280' },
 ];
 

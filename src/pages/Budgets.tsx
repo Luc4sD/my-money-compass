@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AppLayout } from '@/components/layout/AppLayout';
-import { budgets, categories } from '@/data/mockData';
+import { budgets, categories, transactions } from '@/data/mockData';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -26,9 +26,14 @@ import {
   AlertCircle,
   CheckCircle2,
   TrendingUp,
+  TrendingDown,
   MoreHorizontal,
   Pencil,
   Trash2,
+  Wallet,
+  ArrowUpCircle,
+  ArrowDownCircle,
+  Calculator,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -37,6 +42,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
 const formatCurrency = (value: number) => {
   return new Intl.NumberFormat('pt-BR', {
@@ -47,12 +53,66 @@ const formatCurrency = (value: number) => {
 
 export default function Budgets() {
   const [isNewBudgetOpen, setIsNewBudgetOpen] = useState(false);
+  const [expectedIncome, setExpectedIncome] = useState<number>(0);
+  const [isEditingIncome, setIsEditingIncome] = useState(false);
+  const [tempIncome, setTempIncome] = useState('');
+
+  // Calculate current month transactions
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+  const monthTransactions = transactions.filter((t) => {
+    const tDate = new Date(t.date);
+    return tDate >= startOfMonth && tDate <= endOfMonth;
+  });
+
+  // Receitas realizadas (já recebidas)
+  const realizedIncome = monthTransactions
+    .filter((t) => t.type === 'income' && t.isPaid)
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  // Receitas pendentes
+  const pendingIncome = monthTransactions
+    .filter((t) => t.type === 'income' && !t.isPaid)
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  // Despesas realizadas (já pagas)
+  const realizedExpenses = monthTransactions
+    .filter((t) => t.type === 'expense' && t.isPaid)
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  // Despesas pendentes (a pagar)
+  const pendingExpenses = monthTransactions
+    .filter((t) => t.type === 'expense' && !t.isPaid)
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  // Total income (expected or from transactions)
+  const totalIncome = expectedIncome > 0 ? expectedIncome : realizedIncome + pendingIncome;
+  
+  // Total expenses
+  const totalExpenses = realizedExpenses + pendingExpenses;
+
+  // Balance
+  const balance = totalIncome - totalExpenses;
+  const isPositive = balance >= 0;
 
   const totalBudget = budgets.reduce((sum, b) => sum + b.amount, 0);
   const totalSpent = budgets.reduce((sum, b) => sum + b.spent, 0);
   const overBudgetCount = budgets.filter((b) => b.spent > b.amount).length;
 
   const expenseCategories = categories.filter((c) => c.type === 'expense');
+
+  const handleSaveIncome = () => {
+    const value = parseFloat(tempIncome.replace(',', '.'));
+    if (!isNaN(value) && value >= 0) {
+      setExpectedIncome(value);
+      toast.success('Receita prevista atualizada!');
+    }
+    setIsEditingIncome(false);
+  };
+
+  const monthName = now.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
 
   return (
     <AppLayout>
@@ -62,7 +122,7 @@ export default function Budgets() {
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Orçamentos</h1>
             <p className="text-muted-foreground">
-              Defina limites de gastos para cada categoria
+              Controle de receitas, despesas e limites de gastos - {monthName}
             </p>
           </div>
           <Dialog open={isNewBudgetOpen} onOpenChange={setIsNewBudgetOpen}>
@@ -121,6 +181,155 @@ export default function Budgets() {
             </DialogContent>
           </Dialog>
         </div>
+
+        {/* Monthly Balance Summary */}
+        <Card className="p-6 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/20">
+                <Calculator className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold">Balanço Mensal</h2>
+                <p className="text-sm text-muted-foreground">Receitas vs Despesas</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-3">
+            {/* Receitas */}
+            <div className="p-4 rounded-xl bg-background/80 border">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <ArrowUpCircle className="h-5 w-5 text-emerald-500" />
+                  <span className="text-sm font-medium text-muted-foreground">
+                    Receitas Previstas
+                  </span>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  onClick={() => {
+                    setTempIncome(expectedIncome > 0 ? expectedIncome.toString() : (realizedIncome + pendingIncome).toString());
+                    setIsEditingIncome(true);
+                  }}
+                >
+                  <Pencil className="h-3 w-3" />
+                </Button>
+              </div>
+              {isEditingIncome ? (
+                <div className="flex gap-2">
+                  <Input
+                    type="number"
+                    value={tempIncome}
+                    onChange={(e) => setTempIncome(e.target.value)}
+                    placeholder="0,00"
+                    className="h-8"
+                    autoFocus
+                  />
+                  <Button size="sm" onClick={handleSaveIncome}>
+                    OK
+                  </Button>
+                </div>
+              ) : (
+                <p className="text-2xl font-bold text-emerald-600">
+                  {formatCurrency(totalIncome)}
+                </p>
+              )}
+              <div className="mt-2 space-y-1 text-xs text-muted-foreground">
+                <p>Recebido: {formatCurrency(realizedIncome)}</p>
+                <p>A receber: {formatCurrency(pendingIncome)}</p>
+              </div>
+            </div>
+
+            {/* Despesas */}
+            <div className="p-4 rounded-xl bg-background/80 border">
+              <div className="flex items-center gap-2 mb-2">
+                <ArrowDownCircle className="h-5 w-5 text-rose-500" />
+                <span className="text-sm font-medium text-muted-foreground">
+                  Despesas do Mês
+                </span>
+              </div>
+              <p className="text-2xl font-bold text-rose-600">
+                {formatCurrency(totalExpenses)}
+              </p>
+              <div className="mt-2 space-y-1 text-xs text-muted-foreground">
+                <p>Pago: {formatCurrency(realizedExpenses)}</p>
+                <p>A pagar: {formatCurrency(pendingExpenses)}</p>
+              </div>
+            </div>
+
+            {/* Saldo */}
+            <div
+              className={cn(
+                'p-4 rounded-xl border-2',
+                isPositive
+                  ? 'bg-emerald-500/10 border-emerald-500/30'
+                  : 'bg-rose-500/10 border-rose-500/30'
+              )}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <Wallet className="h-5 w-5" />
+                <span className="text-sm font-medium text-muted-foreground">
+                  Saldo do Mês
+                </span>
+              </div>
+              <p
+                className={cn(
+                  'text-3xl font-bold',
+                  isPositive ? 'text-emerald-600' : 'text-rose-600'
+                )}
+              >
+                {isPositive ? '+' : ''}{formatCurrency(balance)}
+              </p>
+              <p className="mt-2 text-sm font-medium">
+                {isPositive ? (
+                  <span className="text-emerald-600 flex items-center gap-1">
+                    <CheckCircle2 className="h-4 w-4" />
+                    Você está no positivo!
+                  </span>
+                ) : (
+                  <span className="text-rose-600 flex items-center gap-1">
+                    <AlertCircle className="h-4 w-4" />
+                    Atenção: saldo negativo
+                  </span>
+                )}
+              </p>
+            </div>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="mt-6">
+            <div className="flex justify-between text-sm mb-2">
+              <span className="text-muted-foreground">Uso da receita</span>
+              <span className={cn(
+                'font-medium',
+                totalIncome > 0 && (totalExpenses / totalIncome) > 1 ? 'text-rose-600' : 'text-muted-foreground'
+              )}>
+                {totalIncome > 0 ? ((totalExpenses / totalIncome) * 100).toFixed(0) : 0}%
+              </span>
+            </div>
+            <div className="h-4 bg-secondary rounded-full overflow-hidden">
+              <div
+                className={cn(
+                  'h-full rounded-full transition-all duration-500',
+                  totalIncome > 0 && (totalExpenses / totalIncome) > 1
+                    ? 'bg-rose-500'
+                    : totalIncome > 0 && (totalExpenses / totalIncome) > 0.8
+                    ? 'bg-amber-500'
+                    : 'bg-emerald-500'
+                )}
+                style={{
+                  width: `${Math.min(totalIncome > 0 ? (totalExpenses / totalIncome) * 100 : 0, 100)}%`,
+                }}
+              />
+            </div>
+            <div className="flex justify-between text-xs text-muted-foreground mt-1">
+              <span>R$ 0</span>
+              <span>{formatCurrency(totalIncome)}</span>
+            </div>
+          </div>
+        </Card>
 
         {/* Overview Cards */}
         <div className="grid gap-4 sm:grid-cols-3">

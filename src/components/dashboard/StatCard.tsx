@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils';
 import { LucideIcon, TrendingUp, TrendingDown } from 'lucide-react';
+import { usePrivacy } from '@/contexts/PrivacyContext';
 
 interface StatCardProps {
   title: string;
@@ -25,6 +26,8 @@ export function StatCard({
   className,
   delay = 0,
 }: StatCardProps) {
+  const { isPrivacyMode } = usePrivacy();
+
   const variantStyles = {
     income: 'stat-card-income',
     expense: 'stat-card-expense',
@@ -51,7 +54,14 @@ export function StatCard({
       <div className="flex items-start justify-between">
         <div className="space-y-2">
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
-          <p className="text-2xl font-bold tracking-tight">{value}</p>
+          <p 
+            className={cn(
+              'text-2xl font-bold tracking-tight transition-all duration-300',
+              isPrivacyMode && 'blur-md select-none'
+            )}
+          >
+            {value}
+          </p>
           {subtitle && (
             <p className="text-xs text-muted-foreground">{subtitle}</p>
           )}

@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { usePrivacy } from '@/contexts/PrivacyContext';
 
 const iconMap: Record<string, React.ElementType> = {
   home: Home,
@@ -52,6 +53,8 @@ const formatDate = (date: Date) => {
 };
 
 export function RecentTransactions() {
+  const { isPrivacyMode } = usePrivacy();
+
   const sortedTransactions = [...transactions].sort(
     (a, b) => b.date.getTime() - a.date.getTime()
   );
@@ -120,8 +123,9 @@ export function RecentTransactions() {
               <div className="text-right">
                 <p
                   className={cn(
-                    'flex items-center gap-1 font-semibold tabular-nums',
-                    isIncome ? 'amount-positive' : 'amount-negative'
+                    'flex items-center gap-1 font-semibold tabular-nums transition-all duration-300',
+                    isIncome ? 'amount-positive' : 'amount-negative',
+                    isPrivacyMode && 'blur-md select-none'
                   )}
                 >
                   {isIncome ? (

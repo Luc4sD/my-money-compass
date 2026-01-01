@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DebtType } from '@/types/finance';
+import { usePrivacy } from '@/contexts/PrivacyContext';
 
 const formatCurrency = (value: number) => {
   return new Intl.NumberFormat('pt-BR', {
@@ -28,6 +29,7 @@ const debtTypeConfig: Record<DebtType, { icon: typeof Landmark; label: string; c
 };
 
 export function DebtsWidget() {
+  const { isPrivacyMode } = usePrivacy();
   const { totalDebt, totalPaid, totalRemaining, percentagePaid } = getTotalDebts();
   const activeDebts = debts.filter(d => d.isActive);
 
@@ -55,7 +57,12 @@ export function DebtsWidget() {
               {percentagePaid.toFixed(0)}% pago
             </span>
           </div>
-          <p className="text-2xl font-bold text-rose-500">
+          <p 
+            className={cn(
+              'text-2xl font-bold text-rose-500 transition-all duration-300',
+              isPrivacyMode && 'blur-md select-none'
+            )}
+          >
             {formatCurrency(totalRemaining)}
           </p>
           <Progress 
@@ -63,8 +70,12 @@ export function DebtsWidget() {
             className="h-2 mt-3"
           />
           <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-            <span>Pago: {formatCurrency(totalPaid)}</span>
-            <span>Total: {formatCurrency(totalDebt)}</span>
+            <span className={cn('transition-all duration-300', isPrivacyMode && 'blur-sm select-none')}>
+              Pago: {formatCurrency(totalPaid)}
+            </span>
+            <span className={cn('transition-all duration-300', isPrivacyMode && 'blur-sm select-none')}>
+              Total: {formatCurrency(totalDebt)}
+            </span>
           </div>
         </div>
 
@@ -87,7 +98,12 @@ export function DebtsWidget() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <p className="font-medium text-sm truncate">{debt.name}</p>
-                    <span className="text-sm font-semibold text-rose-500">
+                    <span 
+                      className={cn(
+                        'text-sm font-semibold text-rose-500 transition-all duration-300',
+                        isPrivacyMode && 'blur-md select-none'
+                      )}
+                    >
                       {formatCurrency(remaining)}
                     </span>
                   </div>

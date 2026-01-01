@@ -1,4 +1,4 @@
-import { Bell, Search, Moon, Sun, User, Plus } from 'lucide-react';
+import { Bell, Search, Moon, Sun, User, Plus, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -11,6 +11,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useState } from 'react';
+import { usePrivacy } from '@/contexts/PrivacyContext';
+import { cn } from '@/lib/utils';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 interface HeaderProps {
   onNewTransaction?: () => void;
@@ -18,6 +25,7 @@ interface HeaderProps {
 
 export function Header({ onNewTransaction }: HeaderProps) {
   const [isDark, setIsDark] = useState(false);
+  const { isPrivacyMode, togglePrivacyMode } = usePrivacy();
 
   const toggleTheme = () => {
     setIsDark(!isDark);
@@ -49,6 +57,30 @@ export function Header({ onNewTransaction }: HeaderProps) {
           <Plus className="h-4 w-4" />
           Nova Transação
         </Button>
+
+        {/* Privacy Mode Toggle */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={togglePrivacyMode}
+              className={cn(
+                'rounded-xl transition-colors',
+                isPrivacyMode && 'bg-violet-500/20 text-violet-500 hover:bg-violet-500/30 hover:text-violet-500'
+              )}
+            >
+              {isPrivacyMode ? (
+                <EyeOff className="h-5 w-5" />
+              ) : (
+                <Eye className="h-5 w-5" />
+              )}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{isPrivacyMode ? 'Desativar modo privacidade' : 'Ativar modo privacidade'}</p>
+          </TooltipContent>
+        </Tooltip>
 
         <Button
           variant="ghost"

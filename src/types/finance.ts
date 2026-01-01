@@ -113,6 +113,34 @@ export interface MonthSummary {
   }[];
 }
 
+// Módulo de Dívidas e Empréstimos
+export type DebtType = 'loan' | 'financing' | 'credit_card_debt' | 'personal' | 'other';
+
+export interface Debt {
+  id: string;
+  name: string;
+  type: DebtType;
+  totalAmount: number;
+  paidAmount: number;
+  creditor: string; // Quem é o credor (banco, parente, etc.)
+  interestRate?: number; // Taxa de juros mensal (opcional)
+  dueDate?: Date; // Data limite para quitação
+  installments?: number; // Número total de parcelas (se aplicável)
+  paidInstallments?: number; // Parcelas já pagas
+  notes?: string;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface DebtPayment {
+  id: string;
+  debtId: string;
+  amount: number;
+  date: Date;
+  notes?: string;
+}
+
 export interface CashFlowItem {
   date: Date;
   income: number;

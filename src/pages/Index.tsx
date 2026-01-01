@@ -6,6 +6,7 @@ import { BudgetProgress } from '@/components/dashboard/BudgetProgress';
 import { CreditCardsWidget } from '@/components/dashboard/CreditCardsWidget';
 import { ExpenseChart } from '@/components/dashboard/ExpenseChart';
 import { MonthlyChart } from '@/components/dashboard/MonthlyChart';
+import { DebtsWidget } from '@/components/dashboard/DebtsWidget';
 import {
   TrendingUp,
   TrendingDown,
@@ -84,6 +85,7 @@ const Index = () => {
         {/* Right Column */}
         <div className="space-y-6">
           <AccountsOverview />
+          <DebtsWidget />
           <ExpenseChart />
           <BudgetProgress />
           <CreditCardsWidget />

@@ -8,11 +8,9 @@ import {
   TrendingUp,
   MoreHorizontal,
   Plus,
-  Eye,
-  EyeOff,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { usePrivacy } from '@/contexts/PrivacyContext';
 
 const iconMap: Record<string, React.ElementType> = {
   'building-2': Building2,
@@ -30,7 +28,7 @@ const formatCurrency = (value: number) => {
 };
 
 export function AccountsOverview() {
-  const [showBalances, setShowBalances] = useState(true);
+  const { isPrivacyMode } = usePrivacy();
 
   const totalBalance = accounts
     .filter((a) => a.type !== 'credit_card')
@@ -43,29 +41,21 @@ export function AccountsOverview() {
           <h3 className="text-lg font-semibold">Suas Contas</h3>
           <p className="text-sm text-muted-foreground">Saldo total disponível</p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            onClick={() => setShowBalances(!showBalances)}
-          >
-            {showBalances ? (
-              <Eye className="h-4 w-4" />
-            ) : (
-              <EyeOff className="h-4 w-4" />
-            )}
-          </Button>
-          <Button variant="ghost" size="icon-sm">
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </div>
+        <Button variant="ghost" size="icon-sm">
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
       </div>
 
       {/* Total Balance */}
       <div className="rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 p-4">
         <p className="text-sm text-muted-foreground">Patrimônio Total</p>
-        <p className="mt-1 text-3xl font-bold tracking-tight">
-          {showBalances ? formatCurrency(totalBalance) : '••••••'}
+        <p 
+          className={cn(
+            'mt-1 text-3xl font-bold tracking-tight transition-all duration-300',
+            isPrivacyMode && 'blur-md select-none'
+          )}
+        >
+          {formatCurrency(totalBalance)}
         </p>
       </div>
 
@@ -92,11 +82,12 @@ export function AccountsOverview() {
               </div>
               <p
                 className={cn(
-                  'font-semibold tabular-nums',
-                  account.balance >= 0 ? 'text-foreground' : 'text-destructive'
+                  'font-semibold tabular-nums transition-all duration-300',
+                  account.balance >= 0 ? 'text-foreground' : 'text-destructive',
+                  isPrivacyMode && 'blur-md select-none'
                 )}
               >
-                {showBalances ? formatCurrency(account.balance) : '••••'}
+                {formatCurrency(account.balance)}
               </p>
             </div>
           );

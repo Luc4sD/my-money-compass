@@ -9,6 +9,7 @@ import {
   RecurringRule,
   MonthSummary,
   CashFlowItem,
+  Debt,
 } from '@/types/finance';
 
 const daysAgo = (days: number) => {
@@ -175,6 +176,51 @@ export const recurringRules: RecurringRule[] = [
   { id: 'rec-2', transactionTemplate: { type: 'expense', amount: 2800.00, description: 'Aluguel', categoryId: 'cat-3', accountId: 'acc-1' }, frequency: 'monthly', dayOfMonth: 5, startDate: new Date('2023-01-05'), isActive: true, nextOccurrence: daysFromNow(5) },
 ];
 
+// Dívidas e Empréstimos
+export const debts: Debt[] = [
+  {
+    id: 'debt-1',
+    name: 'Empréstimo Pai',
+    type: 'personal',
+    totalAmount: 5000.00,
+    paidAmount: 2000.00,
+    creditor: 'Pai',
+    dueDate: daysFromNow(180),
+    notes: 'Empréstimo para emergência médica',
+    isActive: true,
+    createdAt: daysAgo(90),
+    updatedAt: daysAgo(30),
+  },
+  {
+    id: 'debt-2',
+    name: 'Financiamento Carro',
+    type: 'financing',
+    totalAmount: 45000.00,
+    paidAmount: 18000.00,
+    creditor: 'Banco Itaú',
+    interestRate: 1.2,
+    installments: 48,
+    paidInstallments: 19,
+    dueDate: new Date('2026-05-15'),
+    isActive: true,
+    createdAt: daysAgo(580),
+    updatedAt: daysAgo(5),
+  },
+  {
+    id: 'debt-3',
+    name: 'Cartão Nubank Atrasado',
+    type: 'credit_card_debt',
+    totalAmount: 3200.00,
+    paidAmount: 800.00,
+    creditor: 'Nubank',
+    interestRate: 14.5,
+    dueDate: daysFromNow(30),
+    isActive: true,
+    createdAt: daysAgo(60),
+    updatedAt: daysAgo(15),
+  },
+];
+
 export const getTotalBalance = (): number => accounts.filter((acc) => acc.isActive && acc.type !== 'credit_card').reduce((sum, acc) => sum + acc.balance, 0);
 
 export const getMonthSummary = (): MonthSummary => {
@@ -223,3 +269,15 @@ export const getCategoryExpenses = () => {
   const summary = getMonthSummary();
   return summary.topCategories.map((tc) => ({ name: tc.category.name, value: tc.amount, color: tc.category.color, percentage: tc.percentage }));
 };
+
+// Funções para Dívidas
+export const getTotalDebts = () => {
+  const activeDebts = debts.filter(d => d.isActive);
+  const totalDebt = activeDebts.reduce((sum, d) => sum + d.totalAmount, 0);
+  const totalPaid = activeDebts.reduce((sum, d) => sum + d.paidAmount, 0);
+  const totalRemaining = totalDebt - totalPaid;
+  const percentagePaid = totalDebt > 0 ? (totalPaid / totalDebt) * 100 : 0;
+  return { totalDebt, totalPaid, totalRemaining, percentagePaid };
+};
+
+export const getDebtById = (id: string) => debts.find((d) => d.id === id);

@@ -14,6 +14,7 @@ import {
   FolderTree,
   ChevronLeft,
   ChevronRight,
+  Users,
 } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -34,9 +35,13 @@ const mainNavItems: NavItem[] = [
   { icon: Calendar, label: 'Agenda', href: '/calendar' },
 ];
 
+const financeNavItems: NavItem[] = [
+  { icon: Users, label: 'Devedores', href: '/debtors' },
+  { icon: TrendingUp, label: 'Fluxo de Caixa', href: '/cashflow' },
+];
+
 const analysisNavItems: NavItem[] = [
   { icon: PieChart, label: 'Relatórios', href: '/reports' },
-  { icon: TrendingUp, label: 'Fluxo de Caixa', href: '/cashflow' },
 ];
 
 const configNavItems: NavItem[] = [
@@ -124,6 +129,7 @@ export function Sidebar({ currentPath = '/', onNavigate }: SidebarProps) {
       {/* Navigation */}
       <nav className="flex-1 space-y-6 overflow-y-auto p-3">
         <NavSection items={mainNavItems} />
+        <NavSection items={financeNavItems} title="Finanças" />
         <NavSection items={analysisNavItems} title="Análises" />
         <NavSection items={configNavItems} title="Configurações" />
       </nav>

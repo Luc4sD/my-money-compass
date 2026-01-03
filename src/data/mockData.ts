@@ -10,6 +10,9 @@ import {
   MonthSummary,
   CashFlowItem,
   Debt,
+  Debtor,
+  DebtorPayment,
+  CashFlowSummary,
 } from '@/types/finance';
 
 const daysAgo = (days: number) => {
@@ -281,3 +284,169 @@ export const getTotalDebts = () => {
 };
 
 export const getDebtById = (id: string) => debts.find((d) => d.id === id);
+
+// =====================================
+// DEVEDORES (CRM Financeiro) - Quem ME deve
+// =====================================
+
+export const debtors: Debtor[] = [
+  {
+    id: 'debtor-1',
+    name: 'Maira',
+    totalAmount: 3500.00,
+    paidAmount: 1200.00,
+    description: 'Empréstimo para reforma',
+    installments: 10,
+    paidInstallments: 3,
+    phone: '(11) 99999-1111',
+    dueDate: daysFromNow(210),
+    isActive: true,
+    createdAt: daysAgo(90),
+    updatedAt: daysAgo(10),
+  },
+  {
+    id: 'debtor-2',
+    name: 'Emerson',
+    totalAmount: 2000.00,
+    paidAmount: 500.00,
+    description: 'Ajuda com despesas médicas',
+    installments: 4,
+    paidInstallments: 1,
+    phone: '(11) 99999-2222',
+    dueDate: daysFromNow(90),
+    isActive: true,
+    createdAt: daysAgo(45),
+    updatedAt: daysAgo(15),
+  },
+  {
+    id: 'debtor-3',
+    name: 'Pai',
+    totalAmount: 10000.00,
+    paidAmount: 4500.00,
+    description: 'Empréstimo familiar',
+    installments: 20,
+    paidInstallments: 9,
+    dueDate: daysFromNow(330),
+    isActive: true,
+    createdAt: daysAgo(270),
+    updatedAt: daysAgo(30),
+  },
+  {
+    id: 'debtor-4',
+    name: 'Rafael',
+    totalAmount: 3500.00,
+    paidAmount: 1000.00,
+    description: 'Empréstimo pessoal',
+    installments: 7,
+    paidInstallments: 2,
+    phone: '(11) 99999-4444',
+    dueDate: daysFromNow(150),
+    isActive: true,
+    createdAt: daysAgo(60),
+    updatedAt: daysAgo(5),
+  },
+  {
+    id: 'debtor-5',
+    name: 'Vilma',
+    totalAmount: 1248.00,
+    paidAmount: 624.00,
+    description: 'Ajuda com contas',
+    installments: 6,
+    paidInstallments: 3,
+    phone: '(11) 99999-5555',
+    dueDate: daysFromNow(90),
+    isActive: true,
+    createdAt: daysAgo(90),
+    updatedAt: daysAgo(2),
+  },
+];
+
+export const debtorPayments: DebtorPayment[] = [
+  // Pagamentos da Maira
+  { id: 'dp-1', debtorId: 'debtor-1', amount: 400.00, date: daysAgo(70), notes: 'Primeira parcela', createdAt: daysAgo(70) },
+  { id: 'dp-2', debtorId: 'debtor-1', amount: 400.00, date: daysAgo(40), notes: 'Segunda parcela', createdAt: daysAgo(40) },
+  { id: 'dp-3', debtorId: 'debtor-1', amount: 400.00, date: daysAgo(10), notes: 'Terceira parcela', createdAt: daysAgo(10) },
+  
+  // Pagamentos do Emerson
+  { id: 'dp-4', debtorId: 'debtor-2', amount: 500.00, date: daysAgo(15), notes: 'Primeira parcela', createdAt: daysAgo(15) },
+  
+  // Pagamentos do Pai
+  { id: 'dp-5', debtorId: 'debtor-3', amount: 500.00, date: daysAgo(240), createdAt: daysAgo(240) },
+  { id: 'dp-6', debtorId: 'debtor-3', amount: 500.00, date: daysAgo(210), createdAt: daysAgo(210) },
+  { id: 'dp-7', debtorId: 'debtor-3', amount: 500.00, date: daysAgo(180), createdAt: daysAgo(180) },
+  { id: 'dp-8', debtorId: 'debtor-3', amount: 500.00, date: daysAgo(150), createdAt: daysAgo(150) },
+  { id: 'dp-9', debtorId: 'debtor-3', amount: 500.00, date: daysAgo(120), createdAt: daysAgo(120) },
+  { id: 'dp-10', debtorId: 'debtor-3', amount: 500.00, date: daysAgo(90), createdAt: daysAgo(90) },
+  { id: 'dp-11', debtorId: 'debtor-3', amount: 500.00, date: daysAgo(60), createdAt: daysAgo(60) },
+  { id: 'dp-12', debtorId: 'debtor-3', amount: 500.00, date: daysAgo(30), notes: 'Pagou adiantado', createdAt: daysAgo(30) },
+  { id: 'dp-13', debtorId: 'debtor-3', amount: 500.00, date: daysAgo(0), notes: 'Via Pix', createdAt: daysAgo(0) },
+  
+  // Pagamentos do Rafael
+  { id: 'dp-14', debtorId: 'debtor-4', amount: 500.00, date: daysAgo(35), notes: 'Parcela 1', createdAt: daysAgo(35) },
+  { id: 'dp-15', debtorId: 'debtor-4', amount: 500.00, date: daysAgo(5), notes: 'Parcela 2', createdAt: daysAgo(5) },
+  
+  // Pagamentos da Vilma
+  { id: 'dp-16', debtorId: 'debtor-5', amount: 208.00, date: daysAgo(60), createdAt: daysAgo(60) },
+  { id: 'dp-17', debtorId: 'debtor-5', amount: 208.00, date: daysAgo(30), createdAt: daysAgo(30) },
+  { id: 'dp-18', debtorId: 'debtor-5', amount: 208.00, date: daysAgo(2), notes: 'Pix recebido', createdAt: daysAgo(2) },
+];
+
+// Funções para Devedores
+export const getTotalDebtors = () => {
+  const activeDebtors = debtors.filter(d => d.isActive);
+  const totalToReceive = activeDebtors.reduce((sum, d) => sum + d.totalAmount, 0);
+  const totalReceived = activeDebtors.reduce((sum, d) => sum + d.paidAmount, 0);
+  const totalRemaining = totalToReceive - totalReceived;
+  const percentageReceived = totalToReceive > 0 ? (totalReceived / totalToReceive) * 100 : 0;
+  return { totalToReceive, totalReceived, totalRemaining, percentageReceived, count: activeDebtors.length };
+};
+
+export const getDebtorById = (id: string) => debtors.find((d) => d.id === id);
+
+export const getDebtorPayments = (debtorId: string) => 
+  debtorPayments.filter(p => p.debtorId === debtorId).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+export const getAllDebtorPayments = () => 
+  debtorPayments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+// =====================================
+// FLUXO DE CAIXA AVANÇADO
+// =====================================
+
+export const getCashFlowSummary = (): CashFlowSummary => {
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const monthTransactions = transactions.filter((t) => new Date(t.date) >= startOfMonth && t.isPaid);
+  
+  // Renda Fixa (Salário, etc) - categoryId começa com 'cat-income-1' (Salário)
+  const fixedIncome = monthTransactions
+    .filter((t) => t.type === 'income' && t.categoryId === 'cat-income-1')
+    .reduce((sum, t) => sum + t.amount, 0);
+  
+  // Renda Variável (Freelance, outros)
+  const variableIncome = monthTransactions
+    .filter((t) => t.type === 'income' && t.categoryId !== 'cat-income-1')
+    .reduce((sum, t) => sum + t.amount, 0);
+  
+  // Pagamentos de Devedores (recebidos no mês)
+  const monthPayments = debtorPayments.filter(p => new Date(p.date) >= startOfMonth);
+  const debtorPaymentsTotal = monthPayments.reduce((sum, p) => sum + p.amount, 0);
+  
+  const totalIncome = fixedIncome + variableIncome + debtorPaymentsTotal;
+  const totalExpenses = monthTransactions
+    .filter((t) => t.type === 'expense')
+    .reduce((sum, t) => sum + t.amount, 0);
+  
+  const netBalance = totalIncome - totalExpenses;
+  const savingsRate = totalIncome > 0 ? (netBalance / totalIncome) * 100 : 0;
+  
+  return {
+    fixedIncome,
+    variableIncome,
+    debtorPayments: debtorPaymentsTotal,
+    totalIncome,
+    totalExpenses,
+    netBalance,
+    savingsRate,
+  };
+};

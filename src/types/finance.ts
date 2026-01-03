@@ -148,3 +148,52 @@ export interface CashFlowItem {
   balance: number;
   projectedBalance: number;
 }
+
+// Módulo de Devedores (CRM Financeiro) - Pessoas que ME devem
+export interface Debtor {
+  id: string;
+  name: string;
+  totalAmount: number;
+  paidAmount: number;
+  description?: string;
+  dueDate?: Date;
+  installments?: number;
+  paidInstallments?: number;
+  phone?: string;
+  email?: string;
+  notes?: string;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface DebtorPayment {
+  id: string;
+  debtorId: string;
+  amount: number;
+  date: Date;
+  notes?: string;
+  createdAt: Date;
+}
+
+// Tipos de renda para fluxo de caixa
+export type IncomeType = 'fixed' | 'variable' | 'debtor_payment' | 'other';
+
+export interface IncomeSource {
+  id: string;
+  name: string;
+  type: IncomeType;
+  expectedAmount?: number;
+  dayOfMonth?: number;
+  isRecurring: boolean;
+}
+
+export interface CashFlowSummary {
+  fixedIncome: number;
+  variableIncome: number;
+  debtorPayments: number;
+  totalIncome: number;
+  totalExpenses: number;
+  netBalance: number;
+  savingsRate: number;
+}

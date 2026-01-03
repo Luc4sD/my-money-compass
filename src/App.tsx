@@ -15,6 +15,7 @@ import CashFlow from "./pages/CashFlow";
 import Categories from "./pages/Categories";
 import Tags from "./pages/Tags";
 import Settings from "./pages/Settings";
+import Debtors from "./pages/Debtors";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/cashflow" element={<CashFlow />} />
+            <Route path="/debtors" element={<Debtors />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/tags" element={<Tags />} />
             <Route path="/settings" element={<Settings />} />

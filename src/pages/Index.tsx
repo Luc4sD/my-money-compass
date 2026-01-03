@@ -7,6 +7,8 @@ import { CreditCardsWidget } from '@/components/dashboard/CreditCardsWidget';
 import { ExpenseChart } from '@/components/dashboard/ExpenseChart';
 import { MonthlyChart } from '@/components/dashboard/MonthlyChart';
 import { DebtsWidget } from '@/components/dashboard/DebtsWidget';
+import { DebtorsWidget } from '@/components/dashboard/DebtorsWidget';
+import { CashFlowWidget } from '@/components/dashboard/CashFlowWidget';
 import {
   TrendingUp,
   TrendingDown,
@@ -34,7 +36,7 @@ const Index = () => {
           Olá, João! 👋
         </h1>
         <p className="mt-1 text-muted-foreground">
-          Aqui está o resumo das suas finanças em Dezembro 2024
+          Aqui está o resumo das suas finanças em Janeiro 2025
         </p>
       </div>
 
@@ -84,6 +86,8 @@ const Index = () => {
 
         {/* Right Column */}
         <div className="space-y-6">
+          <CashFlowWidget />
+          <DebtorsWidget />
           <AccountsOverview />
           <DebtsWidget />
           <ExpenseChart />

@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { PrivacyProvider } from "@/contexts/PrivacyContext";
+import { useAuth } from "@/hooks/useAuth";
+import { AuthPage } from "@/components/auth/AuthPage";
 import Index from "./pages/Index";
 import Accounts from "./pages/Accounts";
 import Cards from "./pages/Cards";
@@ -20,6 +22,40 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+function AuthenticatedApp() {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-pulse text-muted-foreground">Carregando...</div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <AuthPage />;
+  }
+
+  return (
+    <Routes>
+      <Route path="/" element={<Index />} />
+      <Route path="/accounts" element={<Accounts />} />
+      <Route path="/cards" element={<Cards />} />
+      <Route path="/transactions" element={<Transactions />} />
+      <Route path="/budgets" element={<Budgets />} />
+      <Route path="/calendar" element={<Calendar />} />
+      <Route path="/reports" element={<Reports />} />
+      <Route path="/cashflow" element={<CashFlow />} />
+      <Route path="/debtors" element={<Debtors />} />
+      <Route path="/categories" element={<Categories />} />
+      <Route path="/tags" element={<Tags />} />
+      <Route path="/settings" element={<Settings />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -27,21 +63,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/accounts" element={<Accounts />} />
-            <Route path="/cards" element={<Cards />} />
-            <Route path="/transactions" element={<Transactions />} />
-            <Route path="/budgets" element={<Budgets />} />
-            <Route path="/calendar" element={<Calendar />} />
-            <Route path="/reports" element={<Reports />} />
-            <Route path="/cashflow" element={<CashFlow />} />
-            <Route path="/debtors" element={<Debtors />} />
-            <Route path="/categories" element={<Categories />} />
-            <Route path="/tags" element={<Tags />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <AuthenticatedApp />
         </BrowserRouter>
       </PrivacyProvider>
     </TooltipProvider>

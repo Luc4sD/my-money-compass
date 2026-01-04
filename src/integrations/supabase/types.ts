@@ -14,7 +14,291 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      accounts: {
+        Row: {
+          balance: number
+          color: string | null
+          created_at: string
+          icon: string | null
+          id: string
+          is_active: boolean
+          name: string
+          type: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          balance?: number
+          color?: string | null
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          type?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          balance?: number
+          color?: string | null
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          type?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      debtor_payments: {
+        Row: {
+          amount: number
+          created_at: string
+          debtor_id: string
+          id: string
+          installment_number: number | null
+          notes: string | null
+          payment_date: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          debtor_id: string
+          id?: string
+          installment_number?: number | null
+          notes?: string | null
+          payment_date?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          debtor_id?: string
+          id?: string
+          installment_number?: number | null
+          notes?: string | null
+          payment_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "debtor_payments_debtor_id_fkey"
+            columns: ["debtor_id"]
+            isOneToOne: false
+            referencedRelation: "debtors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      debtors: {
+        Row: {
+          created_at: string
+          description: string | null
+          due_day: number | null
+          id: string
+          installment_amount: number | null
+          is_installment: boolean
+          name: string
+          start_date: string
+          status: string
+          total_amount: number
+          total_installments: number | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          due_day?: number | null
+          id?: string
+          installment_amount?: number | null
+          is_installment?: boolean
+          name: string
+          start_date?: string
+          status?: string
+          total_amount: number
+          total_installments?: number | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          due_day?: number | null
+          id?: string
+          installment_amount?: number | null
+          is_installment?: boolean
+          name?: string
+          start_date?: string
+          status?: string
+          total_amount?: number
+          total_installments?: number | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      debts: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          due_day: number | null
+          id: string
+          installment_amount: number | null
+          paid_installments: number
+          start_date: string
+          status: string
+          title: string
+          total_amount: number
+          total_installments: number
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          due_day?: number | null
+          id?: string
+          installment_amount?: number | null
+          paid_installments?: number
+          start_date?: string
+          status?: string
+          title: string
+          total_amount: number
+          total_installments?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          due_day?: number | null
+          id?: string
+          installment_amount?: number | null
+          paid_installments?: number
+          start_date?: string
+          status?: string
+          title?: string
+          total_amount?: number
+          total_installments?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      recurring_bills: {
+        Row: {
+          amount: number
+          category: string | null
+          created_at: string
+          due_day: number
+          id: string
+          is_active: boolean
+          name: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          amount: number
+          category?: string | null
+          created_at?: string
+          due_day?: number
+          id?: string
+          is_active?: boolean
+          name: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number
+          category?: string | null
+          created_at?: string
+          due_day?: number
+          id?: string
+          is_active?: boolean
+          name?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      transactions: {
+        Row: {
+          account_id: string | null
+          amount: number
+          category: string
+          created_at: string
+          date: string
+          debtor_payment_id: string | null
+          description: string
+          id: string
+          is_recurring: boolean | null
+          recurring_bill_id: string | null
+          status: string
+          type: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          account_id?: string | null
+          amount: number
+          category: string
+          created_at?: string
+          date?: string
+          debtor_payment_id?: string | null
+          description: string
+          id?: string
+          is_recurring?: boolean | null
+          recurring_bill_id?: string | null
+          status?: string
+          type: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          account_id?: string | null
+          amount?: number
+          category?: string
+          created_at?: string
+          date?: string
+          debtor_payment_id?: string | null
+          description?: string
+          id?: string
+          is_recurring?: boolean | null
+          recurring_bill_id?: string | null
+          status?: string
+          type?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_debtor_payment_id_fkey"
+            columns: ["debtor_payment_id"]
+            isOneToOne: false
+            referencedRelation: "debtor_payments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_recurring_bill_id_fkey"
+            columns: ["recurring_bill_id"]
+            isOneToOne: false
+            referencedRelation: "recurring_bills"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

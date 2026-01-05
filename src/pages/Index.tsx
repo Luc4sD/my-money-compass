@@ -31,19 +31,19 @@ const Index = () => {
   return (
     <AppLayout>
       {/* Page Header */}
-      <div className="mb-8 opacity-0 animate-fade-in">
-        <h1 className="text-3xl font-bold tracking-tight">
+      <div className="mb-6 opacity-0 animate-fade-in">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
           Olá, João! 👋
         </h1>
-        <p className="mt-1 text-muted-foreground">
+        <p className="mt-1 text-sm sm:text-base text-muted-foreground">
           Aqui está o resumo das suas finanças em Janeiro 2025
         </p>
       </div>
 
-      {/* Stats Grid */}
-      <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Stats Grid - 2x2 on mobile, 4 cols on desktop */}
+      <div className="mb-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard
-          title="Receitas do Mês"
+          title="Receitas"
           value={formatCurrency(summary.income)}
           icon={TrendingUp}
           variant="income"
@@ -51,7 +51,7 @@ const Index = () => {
           delay={100}
         />
         <StatCard
-          title="Despesas do Mês"
+          title="Despesas"
           value={formatCurrency(summary.expenses)}
           icon={TrendingDown}
           variant="expense"
@@ -59,15 +59,15 @@ const Index = () => {
           delay={150}
         />
         <StatCard
-          title="Saldo do Mês"
+          title="Saldo"
           value={formatCurrency(summary.balance)}
-          subtitle={`Taxa de economia: ${summary.savingsRate.toFixed(0)}%`}
+          subtitle={`${summary.savingsRate.toFixed(0)}% economia`}
           icon={Wallet}
           variant="balance"
           delay={200}
         />
         <StatCard
-          title="Patrimônio Total"
+          title="Patrimônio"
           value={formatCurrency(totalBalance)}
           icon={PiggyBank}
           variant="default"
@@ -76,16 +76,16 @@ const Index = () => {
         />
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid gap-6 lg:grid-cols-3">
+      {/* Main Content - Stack on mobile */}
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-3">
         {/* Left Column */}
-        <div className="space-y-6 lg:col-span-2">
+        <div className="space-y-4 sm:space-y-6 lg:col-span-2">
           <MonthlyChart />
           <RecentTransactions />
         </div>
 
         {/* Right Column */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           <CashFlowWidget />
           <DebtorsWidget />
           <AccountsOverview />

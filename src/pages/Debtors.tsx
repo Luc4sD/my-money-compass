@@ -88,92 +88,93 @@ export default function Debtors() {
 
   return (
     <AppLayout>
-      <div className="space-y-6 pb-24">
-        {/* Header */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">Devedores</h1>
-            <p className="text-muted-foreground">
+      <div className="space-y-4 sm:space-y-6">
+        {/* Header - Compact on mobile */}
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h1 className="text-2xl sm:text-3xl font-bold truncate">Devedores</h1>
+            <p className="text-sm text-muted-foreground hidden sm:block">
               CRM Financeiro - Gerencie quem te deve
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 shrink-0">
             <Button
               variant={showTimeline ? 'default' : 'outline'}
               onClick={() => setShowTimeline(!showTimeline)}
-              size="sm"
+              size="icon"
+              className="h-10 w-10 sm:w-auto sm:px-3"
             >
-              <History className="mr-2 h-4 w-4" />
-              Timeline
+              <History className="h-4 w-4" />
+              <span className="hidden sm:inline ml-2">Timeline</span>
             </Button>
-            <Button onClick={() => setIsNewDebtorOpen(true)}>
-              <Plus className="mr-2 h-4 w-4" />
-              Novo Devedor
+            <Button onClick={() => setIsNewDebtorOpen(true)} size="icon" className="h-10 w-10 sm:w-auto sm:px-4">
+              <Plus className="h-5 w-5 sm:mr-2 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Novo</span>
             </Button>
           </div>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-          <Card className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                <Users className="h-5 w-5 text-primary" />
+        {/* Stats Cards - More compact on mobile */}
+        <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
+          <Card className="p-3 sm:p-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-primary/10 shrink-0">
+                <Users className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
               </div>
-              <div>
-                <p className="text-xs sm:text-sm text-muted-foreground">Devedores</p>
-                <p className="text-xl sm:text-2xl font-bold">{totals.count}</p>
+              <div className="min-w-0">
+                <p className="text-[10px] sm:text-sm text-muted-foreground">Devedores</p>
+                <p className="text-lg sm:text-2xl font-bold">{totals.count}</p>
               </div>
             </div>
           </Card>
           
-          <Card className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10">
-                <DollarSign className="h-5 w-5 text-blue-600" />
+          <Card className="p-3 sm:p-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-blue-500/10 shrink-0">
+                <DollarSign className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
               </div>
-              <div>
-                <p className="text-xs sm:text-sm text-muted-foreground">A Receber</p>
-                <p className={cn("text-xl sm:text-2xl font-bold", isPrivacyMode && "blur-md")}>
+              <div className="min-w-0">
+                <p className="text-[10px] sm:text-sm text-muted-foreground">A Receber</p>
+                <p className={cn("text-lg sm:text-2xl font-bold truncate", isPrivacyMode && "blur-md")}>
                   {formatCurrency(totals.totalRemaining)}
                 </p>
               </div>
             </div>
           </Card>
           
-          <Card className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10">
-                <TrendingUp className="h-5 w-5 text-emerald-600" />
+          <Card className="p-3 sm:p-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-emerald-500/10 shrink-0">
+                <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-600" />
               </div>
-              <div>
-                <p className="text-xs sm:text-sm text-muted-foreground">Recebido</p>
-                <p className={cn("text-xl sm:text-2xl font-bold", isPrivacyMode && "blur-md")}>
+              <div className="min-w-0">
+                <p className="text-[10px] sm:text-sm text-muted-foreground">Recebido</p>
+                <p className={cn("text-lg sm:text-2xl font-bold truncate", isPrivacyMode && "blur-md")}>
                   {formatCurrency(totals.totalReceived)}
                 </p>
               </div>
             </div>
           </Card>
           
-          <Card className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-500/10">
-                <Clock className="h-5 w-5 text-amber-600" />
+          <Card className="p-3 sm:p-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-amber-500/10 shrink-0">
+                <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-amber-600" />
               </div>
-              <div>
-                <p className="text-xs sm:text-sm text-muted-foreground">Progresso</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] sm:text-sm text-muted-foreground">Progresso</p>
                 <div className="flex items-center gap-2">
-                  <Progress value={totals.overallProgress} className="h-2 w-16 sm:flex-1" />
-                  <span className="text-sm font-medium">{totals.overallProgress.toFixed(0)}%</span>
+                  <Progress value={totals.overallProgress} className="h-2 flex-1" />
+                  <span className="text-sm font-medium shrink-0">{totals.overallProgress.toFixed(0)}%</span>
                 </div>
               </div>
             </div>
           </Card>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="grid gap-4 lg:grid-cols-3">
           {/* Lista de Devedores */}
-          <div className={cn("space-y-4", showTimeline ? "lg:col-span-2" : "lg:col-span-3")}>
+          <div className={cn("space-y-3", showTimeline ? "lg:col-span-2" : "lg:col-span-3")}>
             {/* Tabs e Search */}
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -342,31 +343,31 @@ function DebtorCard({
     <Card className={cn("overflow-hidden", isPaid && "opacity-75")}>
       {/* Main Card Content */}
       <div
-        className="cursor-pointer p-4 transition-colors hover:bg-muted/50 active:bg-muted"
+        className="cursor-pointer p-3 sm:p-4 transition-colors hover:bg-muted/50 active:bg-muted touch-manipulation"
         onClick={onToggle}
       >
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="text-lg font-semibold truncate">{debtor.name}</h3>
+              <h3 className="text-base sm:text-lg font-semibold truncate">{debtor.name}</h3>
               {isPaid && (
-                <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-600">
+                <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-600 text-xs">
                   <CheckCircle className="mr-1 h-3 w-3" />
                   Quitado
                 </Badge>
               )}
             </div>
             {debtor.description && (
-              <p className="text-sm text-muted-foreground truncate">{debtor.description}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground truncate">{debtor.description}</p>
             )}
             
-            <div className="mt-3 flex flex-wrap items-center gap-2">
+            <div className="mt-2 flex flex-wrap items-center gap-1.5">
               {debtor.is_installment && debtor.total_installments > 1 && (
-                <Badge variant="outline">
-                  {debtor.total_installments}x de {formatCurrency(debtor.installment_amount || 0)}
+                <Badge variant="outline" className="text-[10px] sm:text-xs h-5 sm:h-6">
+                  {debtor.total_installments}x
                 </Badge>
               )}
-              <Badge variant="secondary" className="gap-1">
+              <Badge variant="secondary" className="gap-1 text-[10px] sm:text-xs h-5 sm:h-6">
                 <Calendar className="h-3 w-3" />
                 Dia {debtor.due_day}
               </Badge>
@@ -375,22 +376,22 @@ function DebtorCard({
 
           <div className="text-right shrink-0">
             <p className={cn(
-              "text-lg font-bold",
+              "text-base sm:text-lg font-bold",
               isPaid ? "text-emerald-600" : "text-primary",
               isPrivacyMode && "blur-md"
             )}>
               {formatCurrency(debtor.remaining_amount || 0)}
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-[10px] sm:text-xs text-muted-foreground">
               {isPaid ? "recebido" : "a receber"}
             </p>
           </div>
         </div>
 
         {/* Progress Bar */}
-        <div className="mt-4 flex items-center gap-3">
-          <Progress value={progress} className="h-2 flex-1" />
-          <span className="text-sm font-medium text-muted-foreground min-w-[3rem] text-right">
+        <div className="mt-3 flex items-center gap-2 sm:gap-3">
+          <Progress value={progress} className="h-1.5 sm:h-2 flex-1" />
+          <span className="text-xs sm:text-sm font-medium text-muted-foreground min-w-[2.5rem] text-right">
             {progress.toFixed(0)}%
           </span>
           {isExpanded ? (

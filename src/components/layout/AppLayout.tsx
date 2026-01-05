@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { MobileNav } from './MobileNav';
+import { MobileHeader } from './MobileHeader';
 import { NewTransactionModal } from '@/components/modals/NewTransactionModal';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -24,10 +25,15 @@ export function AppLayout({ children }: AppLayoutProps) {
       )}
 
       <div className="flex flex-1 flex-col">
-        <Header onNewTransaction={() => setIsNewTransactionOpen(true)} />
+        {/* Mobile Header or Desktop Header */}
+        {isMobile ? (
+          <MobileHeader />
+        ) : (
+          <Header onNewTransaction={() => setIsNewTransactionOpen(true)} />
+        )}
 
-        <main className="flex-1 overflow-auto">
-          <div className="container max-w-7xl py-6 px-4 sm:px-6">
+        <main className="flex-1 overflow-auto pb-24 sm:pb-6">
+          <div className="px-4 py-4 sm:container sm:max-w-7xl sm:py-6 sm:px-6">
             {children}
           </div>
         </main>
